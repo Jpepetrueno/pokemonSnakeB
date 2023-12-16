@@ -116,60 +116,102 @@ def mover_usuario(mapa, posicion_usuario):
             print("Movimiento no válido. Intenta de nuevo.")
 
 
-def realizar_ataque(pokemon_atacante, pokemon_defensor):
-    ataque = seleccionar_ataque(pokemon_atacante)
-    if ataque and ataque != "No atacar":
-        pokemon_defensor.vida -= pokemon_atacante.ataques[ataque]
-        pokemon_defensor.vida = max(0, pokemon_defensor.vida)
-        print(
-            f"{pokemon_atacante.nombre} usa {ataque}, {pokemon_defensor.nombre} "
-            f"tiene {pokemon_defensor.vida} de vida restante."
-        )
-    else:
-        print(f"{pokemon_atacante.nombre} elige no atacar.")
-
-
-def turno_usuario(pokemon_usuario, pokemon_oponente):
-    num1_op, num2_op, operacion, respuesta_correcta = operacion_aritmetica()
-    tiempo_inicio = time.time()
-    respuesta_usuario = input(
-        f"Tienes 20 segundos para resolver la siguiente operación: {num1_op} {operacion} {num2_op} = "
-    )
-    tiempo_transcurrido = time.time() - tiempo_inicio
-    if tiempo_transcurrido > 20:
-        print("Tiempo agotado. Pierdes tu turno.")
-        respuesta_usuario = None
-
-    if respuesta_usuario:
-        try:
-            respuesta_usuario = int(respuesta_usuario)
-        except ValueError:
-            print("Por favor, ingresa un número.")
-            return
-        if respuesta_usuario == respuesta_correcta:
-            print(
-                f"¡Respuesta correcta! {num1_op} {operacion} {num2_op} = {respuesta_correcta}"
-            )
-            realizar_ataque(pokemon_usuario, pokemon_oponente)
-        else:
-            print(
-                f"Respuesta incorrecta. La respuesta correcta es {respuesta_correcta}. Pierdes tu turno."
-            )
-
-
-def turno_oponente(pokemon_usuario, pokemon_oponente):
-    if pokemon_oponente.vida > 0:
-        realizar_ataque(pokemon_oponente, pokemon_usuario)
-
-
 def batalla(pokemon_usuario, pokemon_oponente):
+    os.system("cls" if os.name == "nt" else "clear")
     while pokemon_usuario.vida > 0 and pokemon_oponente.vida > 0:
         pokemon_usuario.imprimir_vida()
         pokemon_oponente.imprimir_vida()
-        turno_usuario(pokemon_usuario, pokemon_oponente)
-        os.system("cls" if os.name == "nt" else "clear")
-        turno_oponente(pokemon_usuario, pokemon_oponente)
-        os.system("cls" if os.name == "nt" else "clear")
+        num1_op, num2_op, operacion, respuesta_correcta = operacion_aritmetica()
+        tiempo_inicio = time.time()
+        respuesta_usuario = input(
+            f"Tienes 20 segundos para resolver la siguiente operación: {num1_op} {operacion} {num2_op} = "
+        )
+        tiempo_transcurrido = time.time() - tiempo_inicio
+        if tiempo_transcurrido > 20:
+            print("Tiempo agotado. Pierdes tu turno.")
+            respuesta_usuario = None
+            time.sleep(3)
+            os.system("cls" if os.name == "nt" else "clear")
+
+        if respuesta_usuario:
+            try:
+                respuesta_usuario = int(respuesta_usuario)
+            except ValueError:
+                print("Por favor, ingresa un número.")
+                continue
+            if respuesta_usuario == respuesta_correcta:
+                msj_animo = [
+                    "¡Excelente, muy bien hecho!",
+                    "¡Parece que sabes matemáticas!",
+                    "¡Has logrado acertar!",
+                    "¡Increíble, sigue así!",
+                    "¡Eres un genio!",
+                    "¡Estás en el camino correcto!",
+                    "¡Eres Euclides!",
+                    "¡Eres Pitágoras!",
+                    "¡Eres Arquímedes!",
+                    "¡Eres Tales de Mileto!",
+                    "¡Eres Aristóteles!",
+                    "¡Eres Diófanto!",
+                    "¡Eres Alan Turing!",
+                    "¡Eres Srinivasa Ramanujan!",
+                    "¡Eres Aryabhata!",
+                    "¡Eres Ada Lovelace!",
+                    "¡Eres Leonhard Euler!",
+                    "¡Eres Isaac Newton!",
+                    "¡Eres Blaise Pascal!",
+                    "¡Eres James Clerk Maxwell!",
+                    "¡Eres Pierre Simon de Laplace!",
+                    "¡Eres Thomas Bayes!",
+                    "¡Eres Charles Babbage!",
+                    "¡Eres Hypatia!",
+                    "¡Eres Girolamo Cardano!",
+                    "¡Eres Albert Einstein!",
+                    "¡Eres Marie Curie!",
+                    "¡Eres Galileo Galilei!",
+                    "¡Eres Stephen Hawking!",
+                    "¡Eres Erwin Schrödinger!",
+                    "¡Eres Richard Feynman!",
+                    "¡Eres Werner Heisenberg!",
+                    "¡Eres Niels Bohr!",
+                    "¡Eres Paul Dirac!",
+                    "¡Eres Max Planck!",
+                    "¡Eres David Bohm!",
+                ]
+                msj_motivacion = random.choice(msj_animo)
+                print(f"¡Respuesta correcta! {msj_motivacion}")
+                time.sleep(8)
+                os.system("cls" if os.name == "nt" else "clear")
+                ataque_usuario = seleccionar_ataque(pokemon_usuario)
+                if ataque_usuario:
+                    if ataque_usuario != "No atacar":
+                        pokemon_oponente.vida -= pokemon_usuario.ataques[ataque_usuario]
+                        pokemon_oponente.vida = max(0, pokemon_oponente.vida)
+                        print(
+                            f"{pokemon_usuario.nombre} usa {ataque_usuario}, {pokemon_oponente.nombre} "
+                            f"tiene {pokemon_oponente.vida} de vida restante."
+                        )
+                    else:
+                        print(f"{pokemon_usuario.nombre} elige no atacar.")
+                    os.system("cls" if os.name == "nt" else "clear")
+            else:
+                print(
+                    f"Respuesta incorrecta. Debes practicar más. La respuesta correcta es {respuesta_correcta}."
+                )
+                time.sleep(10)
+                os.system("cls" if os.name == "nt" else "clear")
+
+        if pokemon_oponente.vida > 0:
+            ataque_oponente = random.choice(list(pokemon_oponente.ataques.keys()))
+            if ataque_oponente != "No atacar":
+                pokemon_usuario.vida -= pokemon_oponente.ataques[ataque_oponente]
+                pokemon_usuario.vida = max(0, pokemon_usuario.vida)
+                print(
+                    f"{pokemon_oponente.nombre} usa {ataque_oponente}, {pokemon_usuario.nombre} "
+                    f"tiene {pokemon_usuario.vida} de vida restante."
+                )
+            else:
+                print(f"{pokemon_oponente.nombre} elige no atacar.")
 
     if pokemon_usuario.vida <= 0:
         print(f"¡{pokemon_oponente.nombre} gana la batalla!")
@@ -226,25 +268,22 @@ def crear_pokemon():
 
 def elegir_pokemon(pokemons):
     pokemon_usuario = None
+    os.system("cls" if os.name == "nt" else "clear")
     while pokemon_usuario is None:
-        os.system("cls" if os.name == "nt" else "clear")
         print("¿Qué Pokémon quieres controlar?")
         for i, pokemon in enumerate(pokemons, start=1):
             print(f"{i}. {pokemon.nombre}")
 
         opcion = input("Introduce el número del Pokémon: ")
-        try:
+        if opcion.isdigit():
             opcion = int(opcion)
             if 1 <= opcion <= len(pokemons):
                 pokemon_usuario = pokemons[opcion - 1]
+                print(f"¡Has elegido a {pokemon_usuario.nombre}! ¡Buena elección!")
             else:
                 print("Opción no válida. Por favor, intenta de nuevo.")
-                time.sleep(2)
-                os.system("cls" if os.name == "nt" else "clear")
-        except ValueError:
+        else:
             print("Por favor, ingresa un número.")
-            time.sleep(2)
-            os.system("cls" if os.name == "nt" else "clear")
 
     return pokemon_usuario
 
