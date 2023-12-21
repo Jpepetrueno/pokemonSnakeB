@@ -89,9 +89,9 @@ def imprimir_mapa(mapa, posicion_usuario, entrenadores):
             if (x, y) == posicion_usuario:
                 print("@", end="")
             elif any(
-                    entrenador.posicion == (x, y)
-                    for entrenador in entrenadores
-                    if entrenador.posicion is not None
+                entrenador.posicion == (x, y)
+                for entrenador in entrenadores
+                if entrenador.posicion is not None
             ):
                 print("E", end="")
             else:
