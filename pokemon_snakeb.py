@@ -130,7 +130,7 @@ def batalla(pokemon_usuario, pokemon_oponente):
         if tiempo_transcurrido > 20:
             print("Tiempo agotado. Pierdes tu turno.")
             respuesta_usuario = None
-            time.sleep(3)
+            time.sleep(2)
             os.system("cls" if os.name == "nt" else "clear")
 
         if respuesta_usuario:
@@ -180,7 +180,7 @@ def batalla(pokemon_usuario, pokemon_oponente):
                 ]
                 msj_motivacion = random.choice(msj_animo)
                 print(f"¡Respuesta correcta! {msj_motivacion}")
-                time.sleep(8)
+                time.sleep(4)
                 os.system("cls" if os.name == "nt" else "clear")
                 ataque_usuario = seleccionar_ataque(pokemon_usuario)
                 if ataque_usuario:
@@ -198,7 +198,7 @@ def batalla(pokemon_usuario, pokemon_oponente):
                 print(
                     f"Respuesta incorrecta. Debes practicar más. La respuesta correcta es {respuesta_correcta}."
                 )
-                time.sleep(10)
+                time.sleep(6)
                 os.system("cls" if os.name == "nt" else "clear")
 
         if pokemon_oponente.vida > 0:
